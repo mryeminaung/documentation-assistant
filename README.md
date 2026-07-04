@@ -2,6 +2,10 @@
 
 A web application that uses the Claude API to help developers understand, document, and clean up their code — explain a snippet, generate comments, produce Markdown docs, summarize a file, or get better variable names, all from one interface.
 
+### Live Demo
+
+`I will add live demo URL later`
+
 ## Overview
 
 Pasting code into a chat window and re-typing the same instructions every time gets old fast. AI Documentation Assistant wraps five common "help me understand/document this code" tasks into a focused UI: pick a task, pick a language, paste code, get a clean response back — with the prompt engineering already handled server-side.
@@ -23,25 +27,28 @@ The project is intentionally small in scope: no accounts, no history, no databas
 
 > I will add screenshots or a short screen recording here once the UI is running locally.
 
-| Explain Code | Generate Documentation |
-|---|---|
+| Explain Code              | Generate Documentation |
+| ------------------------- | ---------------------- |
 | `screenshots/explain.png` | `screenshots/docs.png` |
 
-| Mobile view | Error state |
-|---|---|
+| Mobile view              | Error state             |
+| ------------------------ | ----------------------- |
 | `screenshots/mobile.png` | `screenshots/error.png` |
 
 ## Technologies
 
 **Frontend**
+
 - React 18 + Vite
 - Tailwind CSS
 
 **Backend**
+
 - Node.js + Express
 - Anthropic Claude API (`@anthropic-ai` Messages API via `fetch`)
 
 **Tooling**
+
 - ESM modules throughout (`type: "module"`)
 - `dotenv` for environment configuration
 - `cors` for local cross-origin requests between client and server
@@ -51,7 +58,7 @@ The project is intentionally small in scope: no accounts, no history, no databas
 Clone the repository and install dependencies for both the client and the server — they're separate packages.
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/mryeminaung/documentation-assistant.git
 cd ai-doc-assistant
 
 cd client && npm install
@@ -69,12 +76,12 @@ cp .env.example .env
 
 `server/.env`:
 
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `ANTHROPIC_API_KEY` | Yes | — | Your Anthropic API key. Never commit this. |
-| `ANTHROPIC_MODEL` | No | `claude-sonnet-5` | Which Claude model to call. |
-| `PORT` | No | `4000` | Port the Express server listens on. |
-| `CLIENT_ORIGIN` | No | `http://localhost:5173` | Allowed CORS origin, for local dev with Vite. |
+| Variable            | Required | Default                 | Description                                   |
+| ------------------- | -------- | ----------------------- | --------------------------------------------- |
+| `ANTHROPIC_API_KEY` | Yes      | —                       | Your Anthropic API key. Never commit this.    |
+| `ANTHROPIC_MODEL`   | No       | `claude-sonnet-5`       | Which Claude model to call.                   |
+| `PORT`              | No       | `8000`                  | Port the Express server listens on.           |
+| `CLIENT_ORIGIN`     | No       | `http://localhost:3000` | Allowed CORS origin, for local dev with Vite. |
 
 The client has no required environment variables — in development, Vite proxies `/api` requests to the backend (see `client/vite.config.js`).
 
@@ -83,20 +90,25 @@ The client has no required environment variables — in development, Vite proxie
 Run the client and server in two terminals.
 
 **Terminal 1 — backend**
+
 ```bash
 cd server
 npm run dev
 ```
-Starts the Express server at `http://localhost:4000`.
+
+Starts the Express server at `http://localhost:8000`.
 
 **Terminal 2 — frontend**
+
 ```bash
 cd client
 npm run dev
 ```
-Starts the Vite dev server at `http://localhost:5173`. Open that URL in your browser.
+
+Starts the Vite dev server at `http://localhost:3000`. Open that URL in your browser.
 
 To build the frontend for production:
+
 ```bash
 cd client
 npm run build
