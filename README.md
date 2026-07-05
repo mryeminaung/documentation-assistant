@@ -1,4 +1,4 @@
-# AI Documentation Assistant
+# Documentation Assistant
 
 A web application that uses the Claude API to help developers understand, document, and clean up their code — explain a snippet, generate comments, produce Markdown docs, summarize a file, or get better variable names, all from one interface.
 
@@ -10,7 +10,7 @@ Explore the fully interactive application directly in your browser:
 
 ## Overview
 
-Pasting code into a chat window and re-typing the same instructions every time gets old fast. AI Documentation Assistant wraps five common "help me understand/document this code" tasks into a focused UI: pick a task, pick a language, paste code, get a clean response back — with the prompt engineering already handled server-side.
+Pasting code into a chat window and re-typing the same instructions every time gets old fast. Documentation Assistant wraps five common "help me understand/document this code" tasks into a focused UI: pick a task, pick a language, paste code, get a clean response back — with the prompt engineering already handled server-side.
 
 The project is intentionally small in scope: no accounts, no history, no database. It's a single-page tool built to be finished in a few days and easy to extend later.
 
@@ -27,15 +27,30 @@ The project is intentionally small in scope: no accounts, no history, no databas
 
 ## Screenshots
 
-> I will add screenshots or a short screen recording here once the UI is running locally.
+<p align="center">
+<img src="screenshots/01-explain-code.png" alt="Explain Code" width="100%" /><br/>
+<strong>Explain Code</strong>
+</p>
 
-| Explain Code              | Generate Documentation |
-| ------------------------- | ---------------------- |
-| `screenshots/explain.png` | `screenshots/docs.png` |
+<p align="center">
+<img src="screenshots/02-generate-comments.png" alt="Generate Comments" width="100%" /><br/>
+<strong>Generate Comments</strong>
+</p>
 
-| Mobile view              | Error state             |
-| ------------------------ | ----------------------- |
-| `screenshots/mobile.png` | `screenshots/error.png` |
+<p align="center">
+<img src="screenshots/03-generate-docs.png" alt="Generate Documentation" width="100%" /><br/>
+<strong>Generate Documentation</strong>
+</p>
+
+<p align="center">
+<img src="screenshots/04-summarize-file.png" alt="Summarize File" width="100%" /><br/>
+<strong>Summarize File</strong>
+</p>
+
+<p align="center">
+<img src="screenshots/05-refactor-names.png" alt="Improve Names" width="100%" /><br/>
+<strong>Improve Variable Names</strong>
+</p>
 
 ## Technologies
 
@@ -119,51 +134,63 @@ npm run build
 ## Folder Structure
 
 ```
-ai-doc-assistant/
-├── client/                        # React + Vite + Tailwind
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Header.jsx
-│   │   │   ├── LanguageSelector.jsx
-│   │   │   ├── TaskTabs.jsx
-│   │   │   ├── CodeEditor.jsx
-│   │   │   ├── GenerateButton.jsx
-│   │   │   ├── LoadingIndicator.jsx
-│   │   │   ├── ResponsePanel.jsx
-│   │   │   ├── CopyButton.jsx
-│   │   │   └── Toast.jsx
-│   │   ├── hooks/
-│   │   │   ├── useClaudeRequest.js
-│   │   │   └── useToast.js
-│   │   ├── lib/
-│   │   │   └── constants.js       # task list, language list
-│   │   ├── App.jsx
-│   │   └── main.jsx
+documentation-assistant/
+├── client/
 │   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
 │   ├── tailwind.config.js
-│   └── vite.config.js
-│
-├── server/                        # Node + Express
-│   ├── src/
-│   │   ├── routes/
-│   │   │   └── generate.routes.js # POST /api/generate
-│   │   ├── controllers/
-│   │   │   └── generate.controller.js
-│   │   ├── services/
-│   │   │   └── claudeService.js   # calls the Anthropic API
-│   │   ├── prompts/
-│   │   │   └── templates.js       # one prompt template per task
-│   │   ├── middleware/
-│   │   │   └── errorHandler.js
-│   │   ├── utils/
-│   │   │   ├── AppError.js
-│   │   │   └── validateGenerateRequest.js
-│   │   ├── config/
-│   │   │   └── index.js
-│   │   └── server.js
-│   ├── .env.example
-│   └── package.json
-│
+│   ├── vite.config.js
+│   └── src/
+│       ├── App.jsx
+│       ├── main.jsx
+│       ├── index.css
+│       ├── components/
+│       │   ├── About.jsx
+│       │   ├── CodeEditor.jsx
+│       │   ├── CopyButton.jsx
+│       │   ├── GenerateButton.jsx
+│       │   ├── Header.jsx
+│       │   ├── LanguageSelector.jsx
+│       │   ├── LoadingIndicator.jsx
+│       │   ├── ResponsePanel.jsx
+│       │   ├── TaskTabs.jsx
+│       │   └── Toast.jsx
+│       ├── hooks/
+│       │   ├── useClaudeRequest.js
+│       │   └── useToast.js
+│       └── lib/
+│           └── constants.js
+├── screenshots/
+│   ├── 01-explain-code.png
+│   ├── 02-generate-comments.png
+│   ├── 03-generate-docs.png
+│   ├── 04-summarize-file.png
+│   └── 05-refactor-names.png
+├── server/
+│   ├── package.json
+│   └── src/
+│       ├── server.js
+│       ├── config/
+│       │   └── index.js
+│       ├── controllers/
+│       │   └── generate.controller.js
+│       ├── middleware/
+│       │   ├── errorHandler.js
+│       │   └── rateLimiter.js
+│       ├── prompts/
+│       │   └── templates.js
+│       ├── routes/
+│       │   └── generate.routes.js
+│       ├── services/
+│       │   └── claudeService.js
+│       └── utils/
+│           ├── AppError.js
+│           └── validateGenerateRequest.js
+├── slides/
+│   ├── pitch.md
+│   └── product-intro.md
+├── LICENSE
 └── README.md
 ```
 
