@@ -2,9 +2,11 @@
 
 A web application that uses the Claude API to help developers understand, document, and clean up their code — explain a snippet, generate comments, produce Markdown docs, summarize a file, or get better variable names, all from one interface.
 
-### Live Demo
+## Live Demo
 
-`I will add live demo URL later`
+Explore the fully interactive application directly in your browser:
+
+🔗 **[Launch Documentation Assistant](https://documentation-assistant.vercel.app/)**
 
 ## Overview
 
