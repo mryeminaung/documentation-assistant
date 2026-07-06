@@ -1,41 +1,102 @@
-import { FileCode, Braces, Hash, Code2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { FileCode, Braces, Hash, Code2, Check, ChevronDown } from 'lucide-react'
 import { LANGUAGES } from '../lib/constants'
 
-const LANG_ICONS = {
-  JavaScript: <Braces className="h-3.5 w-3.5 text-yellow-400" />,
-  TypeScript: <Code2 className="h-3.5 w-3.5 text-blue-400" />,
-  Python: <Hash className="h-3.5 w-3.5 text-green-400" />,
-  Java: <FileCode className="h-3.5 w-3.5 text-red-400" />,
-  'C++': <Braces className="h-3.5 w-3.5 text-cyan-400" />,
-  Dart: <Code2 className="h-3.5 w-3.5 text-sky-400" />,
+const LANG_CONFIG = {
+  JavaScript: { icon: Braces, color: 'text-yellow-400', bg: 'bg-yellow-400/10' },
+  TypeScript: { icon: Code2, color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  Python: { icon: Hash, color: 'text-green-400', bg: 'bg-green-400/10' },
+  Java: { icon: FileCode, color: 'text-red-400', bg: 'bg-red-400/10' },
+  'C++': { icon: Braces, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
+  Dart: { icon: Code2, color: 'text-sky-400', bg: 'bg-sky-400/10' },
+}
+
+function LangIcon({ lang, className = '' }) {
+  const cfg = LANG_CONFIG[lang] ?? { icon: Code2, color: 'text-muted', bg: 'bg-muted/10' }
+  const Icon = cfg.icon
+  return (
+    <span className={`inline-flex h-6 w-6 items-center justify-center rounded-md ${cfg.bg} ${className}`}>
+      <Icon className={`h-3.5 w-3.5 ${cfg.color}`} />
+    </span>
+  )
 }
 
 export default function LanguageSelector({ value, onChange }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [open])
+
+  // Close on Escape
+  useEffect(() => {
+    if (!open) return
+    const handler = (e) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [open])
+
+  const handleSelect = (lang) => {
+    onChange(lang)
+    setOpen(false)
+  }
+
   return (
-    <label className="flex items-center gap-2 text-xs text-muted">
-      <span className="font-mono uppercase tracking-wide">Language</span>
-      <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
-          {LANG_ICONS[value] ?? <Code2 className="h-3.5 w-3.5 text-muted" />}
+    <div ref={ref} className="relative">
+      <span className="mb-1.5 block font-mono text-[10px] uppercase tracking-widest text-muted/60">
+        Language
+      </span>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex items-center gap-2.5 rounded-lg border border-border bg-panel-alt px-3 py-2 text-sm font-medium text-ink
+                   transition-colors hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none"
+      >
+        <LangIcon lang={value} />
+        <span>{value}</span>
+        <ChevronDown
+          className={`ml-auto h-4 w-4 text-muted transition-transform duration-200 ${
+            open ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
+
+      {open && (
+        <div className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-panel-alt shadow-2xl shadow-black/30">
+          <div className="p-1.5">
+            {LANGUAGES.map((lang) => {
+              const isSelected = lang === value
+              const cfg = LANG_CONFIG[lang] ?? {}
+              return (
+                <button
+                  key={lang}
+                  type="button"
+                  onClick={() => handleSelect(lang)}
+                  className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors
+                    ${
+                      isSelected
+                        ? 'bg-accent/15 text-accent'
+                        : 'text-ink hover:bg-accent/10 hover:text-accent'
+                    }`}
+                >
+                  <LangIcon lang={lang} />
+                  <span className="flex-1 font-medium">{lang}</span>
+                  {isSelected && <Check className="h-4 w-4 shrink-0 text-accent" />}
+                </button>
+              )
+            })}
+          </div>
         </div>
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="appearance-none rounded border border-border bg-panel-alt py-1 pl-8 pr-6 font-mono text-xs text-ink
-                     focus-visible:outline-none"
-        >
-          {LANGUAGES.map((lang) => (
-            <option key={lang} value={lang}>
-              {lang}
-            </option>
-          ))}
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-1.5">
-          <svg className="h-3 w-3 text-muted" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-          </svg>
-        </div>
-      </div>
-    </label>
+      )}
+    </div>
   )
 }

@@ -34,7 +34,7 @@ const FEATURES = [
 
 export default function About() {
   return (
-    <div className="h-full w-full overflow-auto">
+    <div className="h-full w-full overflow-auto no-scrollbar">
       <div className="mx-auto max-w-5xl space-y-10 p-6 md:p-10">
         {/* Header */}
         <div className="flex items-center gap-4">

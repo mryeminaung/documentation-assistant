@@ -7,6 +7,15 @@ import { oneDark } from '@codemirror/theme-one-dark'
 import { getLanguageExtension } from '../lib/codemirrorLanguages'
 
 const TAB_SIZE = 2
+
+const EXT_MAP = {
+  JavaScript: 'js',
+  TypeScript: 'ts',
+  Python: 'py',
+  Java: 'java',
+  'C++': 'cpp',
+  Dart: 'dart',
+}
 const languageConf = new Compartment()
 
 export default function CodeEditor({ value, onChange, placeholder, language }) {
@@ -86,7 +95,7 @@ export default function CodeEditor({ value, onChange, placeholder, language }) {
         <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
         <span className="h-2.5 w-2.5 rounded-full bg-orange-500" />
         <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
-        <span className="ml-2 font-mono text-xs text-muted">source.txt</span>
+        <span className="ml-2 font-mono text-xs text-muted">source.{EXT_MAP[language] ?? 'txt'}</span>
       </div>
       <div ref={containerRef} className="h-full flex-1 overflow-auto thin-scroll cm-editor-hack" />
     </div>

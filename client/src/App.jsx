@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import About from './components/About'
 import CodeEditor from './components/CodeEditor'
 import GenerateButton from './components/GenerateButton'
 import Header from './components/Header'
 import LanguageSelector from './components/LanguageSelector'
 import ResponsePanel from './components/ResponsePanel'
+import SplashScreen from './components/SplashScreen'
 import TaskTabs from './components/TaskTabs'
 import Toast from './components/Toast'
 import { useClaudeRequest } from './hooks/useClaudeRequest'
@@ -14,6 +15,7 @@ import { DEFAULT_LANGUAGE, DEFAULT_TASK, TASKS } from './lib/constants'
 const isCreatorTask = (id) => id === 'creator'
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true)
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE)
   const [task, setTask] = useState(DEFAULT_TASK)
   const [code, setCode] = useState('')
@@ -28,8 +30,14 @@ export default function App() {
     run({ task, code, language })
   }
 
+  const handleSplashComplete = useCallback(() => {
+    setShowSplash(false)
+  }, [])
+
   return (
     <div className="flex h-screen flex-col">
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+
       <Header />
 
       <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
