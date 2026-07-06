@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import About from './components/About'
 import CodeEditor from './components/CodeEditor'
 import GenerateButton from './components/GenerateButton'
 import Header from './components/Header'
@@ -10,6 +11,8 @@ import { useClaudeRequest } from './hooks/useClaudeRequest'
 import { useToast } from './hooks/useToast'
 import { DEFAULT_LANGUAGE, DEFAULT_TASK, TASKS } from './lib/constants'
 
+const isCreatorTask = (id) => id === 'creator'
+
 export default function App() {
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE)
   const [task, setTask] = useState(DEFAULT_TASK)
@@ -19,6 +22,7 @@ export default function App() {
   const { toast, showToast } = useToast()
 
   const activeTask = TASKS.find((t) => t.id === task) ?? TASKS[0]
+  const showCreator = isCreatorTask(task)
 
   const handleGenerate = () => {
     run({ task, code, language })
@@ -31,43 +35,50 @@ export default function App() {
       <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
         <TaskTabs value={task} onChange={setTask} />
 
-        <main className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:gap-5 md:overflow-hidden md:p-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="font-display text-sm font-semibold text-ink">
-                {activeTask.label}
-              </h2>
-              <p className="text-xs text-muted">{activeTask.description}</p>
+        {showCreator ? (
+          <main className="flex flex-1 overflow-hidden">
+            <About />
+          </main>
+        ) : (
+          <main className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:gap-5 md:overflow-hidden md:p-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="font-display text-sm font-semibold text-ink">
+                  {activeTask.label}
+                </h2>
+                <p className="text-xs text-muted">{activeTask.description}</p>
+              </div>
+              <LanguageSelector value={language} onChange={setLanguage} />
             </div>
-            <LanguageSelector value={language} onChange={setLanguage} />
-          </div>
 
-          <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2 md:overflow-hidden">
-            <div className="min-h-[260px] md:min-h-0">
-              <CodeEditor
-                value={code}
-                onChange={setCode}
-                placeholder="Paste your code here…"
+            <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2 md:overflow-hidden">
+              <div className="min-h-[260px] md:min-h-0">
+                <CodeEditor
+                  value={code}
+                  onChange={setCode}
+                  placeholder="Paste your code here…"
+                  language={language}
+                />
+              </div>
+              <div className="min-h-[260px] md:min-h-0">
+                <ResponsePanel
+                  status={status}
+                  result={result}
+                  error={error}
+                  onToast={showToast}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-stretch sm:justify-end">
+              <GenerateButton
+                onClick={handleGenerate}
+                disabled={status === 'loading'}
+                loading={status === 'loading'}
               />
             </div>
-            <div className="min-h-[260px] md:min-h-0">
-              <ResponsePanel
-                status={status}
-                result={result}
-                error={error}
-                onToast={showToast}
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-stretch sm:justify-end">
-            <GenerateButton
-              onClick={handleGenerate}
-              disabled={status === 'loading'}
-              loading={status === 'loading'}
-            />
-          </div>
-        </main>
+          </main>
+        )}
       </div>
 
       <Toast toast={toast} />

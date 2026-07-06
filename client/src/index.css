@@ -18,6 +18,14 @@ body {
   outline-offset: 2px;
 }
 
+/* Make CodeMirror fill its container */
+.cm-editor-hack .cm-editor {
+  height: 100% !important;
+}
+.cm-editor-hack .cm-scroller {
+  overflow: auto;
+}
+
 /* Slim scrollbar for the editor/output panes */
 .thin-scroll::-webkit-scrollbar {
   width: 8px;

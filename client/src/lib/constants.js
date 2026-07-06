@@ -29,8 +29,8 @@ export const TASKS = [
 	},
 	{
 		id: "creator",
-		label: "About Creator",
-		description: "Suggests clearer names with reasons, as a table.",
+		label: "About Your Assistant",
+		description: "Learn about this app and how to use it.",
 	},
 ];
 
