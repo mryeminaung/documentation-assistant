@@ -9,7 +9,8 @@ body,
 }
 
 body {
-  @apply bg-bg text-ink font-sans antialiased;
+  @apply font-sans antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Visible keyboard focus everywhere, no exceptions */

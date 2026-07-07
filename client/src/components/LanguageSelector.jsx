@@ -59,7 +59,7 @@ export default function LanguageSelector({ value, onChange }) {
         type="button"
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-2.5 rounded-lg border border-border bg-panel-alt px-3 py-2 text-sm font-medium text-ink
-                   transition-colors hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none"
+                   transition-colors hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none dark:bg-[#242A33] dark:text-[#E7E9EC]"
       >
         <LangIcon lang={value} />
         <span>{value}</span>
@@ -71,7 +71,7 @@ export default function LanguageSelector({ value, onChange }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-panel-alt shadow-2xl shadow-black/30">
+        <div className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-panel-alt shadow-2xl shadow-black/30 dark:bg-[#242A33]">
           <div className="p-1.5">
             {LANGUAGES.map((lang) => {
               const isSelected = lang === value
@@ -85,7 +85,7 @@ export default function LanguageSelector({ value, onChange }) {
                     ${
                       isSelected
                         ? 'bg-accent/15 text-accent'
-                        : 'text-ink hover:bg-accent/10 hover:text-accent'
+                        : 'text-ink hover:bg-accent/10 hover:text-accent dark:text-[#E7E9EC]'
                     }`}
                 >
                   <LangIcon lang={lang} />

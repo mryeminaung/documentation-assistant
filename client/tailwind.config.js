@@ -1,20 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        bg: '#171B21',
-        panel: '#1F242C',
-        'panel-alt': '#242A33',
-        ink: '#E7E9EC',
-        muted: '#8B93A1',
-        border: '#313842',
+        // Semantic tokens — light theme defaults
+        bg: '#F8F9FA',
+        panel: '#FFFFFF',
+        'panel-alt': '#F0F1F3',
+        ink: '#1A1D23',
+        muted: '#6B7280',
+        border: '#D1D5DB',
         accent: {
-          DEFAULT: '#E8A33D',
-          dim: '#B87F2C',
+          DEFAULT: '#D97706',
+          dim: '#B45309',
         },
-        teal: '#4FD1C5',
+        teal: '#0D9488',
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'sans-serif'],
@@ -22,7 +24,7 @@ export default {
         mono: ['"IBM Plex Mono"', 'monospace'],
       },
       boxShadow: {
-        tab: 'inset 0 1px 0 rgba(255,255,255,0.04)',
+        tab: 'inset 0 1px 0 rgba(0,0,0,0.05)',
       },
       keyframes: {
         'toast-in': {

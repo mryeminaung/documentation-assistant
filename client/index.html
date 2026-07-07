@@ -10,8 +10,17 @@
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <script>
+      // Prevent flash of wrong theme on load
+      (function () {
+        var t = localStorage.getItem('theme')
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        }
+      })()
+    </script>
   </head>
-  <body class="bg-bg">
+  <body class="bg-bg text-ink dark:bg-[#171B21] dark:text-[#E7E9EC]">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

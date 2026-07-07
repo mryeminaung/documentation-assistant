@@ -49,7 +49,7 @@ export default function SplashScreen({ onComplete }) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg p-6 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg p-6 transition-opacity duration-500 dark:bg-[#171B21] ${
         phase === 2 ? 'pointer-events-none opacity-0' : 'opacity-100'
       }`}
     >
@@ -59,7 +59,7 @@ export default function SplashScreen({ onComplete }) {
       </div>
 
       {/* Title */}
-      <h1 className="splash-title font-display text-2xl font-bold text-ink sm:text-3xl">
+      <h1 className="splash-title font-display text-2xl font-bold text-ink dark:text-[#E7E9EC] sm:text-3xl">
         Documentation Assistant
       </h1>
       <p className="splash-subtitle mt-2 text-sm text-muted">
@@ -67,17 +67,17 @@ export default function SplashScreen({ onComplete }) {
       </p>
 
       {/* Code typing animation */}
-      <div className="mt-10 w-full max-w-md overflow-hidden rounded-lg border border-border bg-panel-alt p-4 font-mono text-xs shadow-xl sm:text-sm">
+      <div className="mt-10 w-full max-w-md overflow-hidden rounded-lg border border-border bg-panel-alt p-4 font-mono text-xs shadow-xl dark:bg-[#242A33] sm:text-sm">
         {LINES.slice(0, visibleLines).map((line, i) => (
           <div key={i} className="flex gap-2 leading-relaxed">
             <span className="select-none text-muted/40">{i + 1}</span>
-            <span className="text-green-400">{line}</span>
+            <span className="text-green-600 dark:text-green-400">{line}</span>
           </div>
         ))}
         {visibleLines < LINES.length && (
           <div className="flex gap-2 leading-relaxed">
             <span className="select-none text-muted/40">{visibleLines + 1}</span>
-            <span className="text-green-400">
+            <span className="text-green-600 dark:text-green-400">
               {LINES[visibleLines].slice(0, charIndex)}
               <span className="splash-cursor inline-block h-4 w-0.5 animate-pulse bg-accent align-middle" />
             </span>

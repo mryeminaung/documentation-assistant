@@ -3,7 +3,7 @@ import CopyButton from './CopyButton'
 
 export default function ResponsePanel({ status, result, error, onToast }) {
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-panel-alt shadow-sm">
+    <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-panel-alt shadow-sm dark:bg-[#242A33]">
       <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
         <span className="font-mono text-xs text-muted">output.md</span>
         {status === 'success' && result && (
@@ -34,13 +34,13 @@ export default function ResponsePanel({ status, result, error, onToast }) {
             <span className="mt-0.5 text-accent" aria-hidden="true">⚠</span>
             <div>
               <p className="text-sm font-medium text-accent">Something went wrong</p>
-              <p className="mt-0.5 font-mono text-xs text-ink/80">{error}</p>
+              <p className="mt-0.5 font-mono text-xs text-ink/80 dark:text-[#E7E9EC]/80">{error}</p>
             </div>
           </div>
         )}
 
         {status === 'success' && (
-          <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-ink">
+          <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-ink dark:text-[#E7E9EC]">
             {result}
           </pre>
         )}

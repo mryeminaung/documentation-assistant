@@ -9,7 +9,7 @@ export default function TaskTabs({ value, onChange }) {
 			aria-label="Task"
 			className="thin-scroll flex gap-2 overflow-x-auto border-b border-border bg-panel
                  px-4 py-3 md:flex-col md:gap-1 md:overflow-visible md:border-b-0
-                 md:border-r md:px-0 md:py-4">
+                 md:border-r md:px-0 md:py-4 dark:bg-[#1F242C]">
 			{TASKS.map((task) => {
 				const isActive = task.id === value;
 				return (
@@ -23,8 +23,8 @@ export default function TaskTabs({ value, onChange }) {
 							"font-medium transition-colors duration-150 focus-visible:outline-none",
 							"md:rounded-l-md md:rounded-r-none md:py-3 md:pl-4 md:pr-3 md:mr-1",
 							isActive
-								? "bg-accent/15 text-accent md:z-10 md:bg-panel-alt md:shadow-tab"
-								: "text-muted hover:bg-panel-alt/60 hover:text-ink hover:text-ink md:hover:bg-transparent",
+								? "bg-accent/15 text-accent md:z-10 md:bg-panel-alt md:shadow-tab dark:md:bg-[#242A33]"
+								: "text-muted hover:bg-panel-alt/60 hover:text-ink dark:hover:text-[#E7E9EC] md:hover:bg-transparent",
 						].join(" ")}>
 						{isActive && (
 							<span className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-accent md:inset-x-auto md:inset-y-0 md:left-0 md:bottom-auto md:h-full md:w-0.5" />

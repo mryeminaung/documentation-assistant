@@ -9,6 +9,7 @@ import SplashScreen from './components/SplashScreen'
 import TaskTabs from './components/TaskTabs'
 import Toast from './components/Toast'
 import { useClaudeRequest } from './hooks/useClaudeRequest'
+import { useTheme } from './hooks/useTheme'
 import { useToast } from './hooks/useToast'
 import { DEFAULT_LANGUAGE, DEFAULT_TASK, TASKS } from './lib/constants'
 
@@ -22,6 +23,7 @@ export default function App() {
 
   const { run, status, result, error } = useClaudeRequest()
   const { toast, showToast } = useToast()
+  const { theme, toggle: toggleTheme } = useTheme()
 
   const activeTask = TASKS.find((t) => t.id === task) ?? TASKS[0]
   const showCreator = isCreatorTask(task)
@@ -35,10 +37,10 @@ export default function App() {
   }, [])
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col bg-bg text-ink dark:bg-[#171B21] dark:text-[#E7E9EC]">
       {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
 
-      <Header />
+      <Header theme={theme} onToggleTheme={toggleTheme} />
 
       <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
         <TaskTabs value={task} onChange={setTask} />
@@ -51,7 +53,7 @@ export default function App() {
           <main className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:gap-5 md:overflow-hidden md:p-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="font-display text-sm font-semibold text-ink">
+                <h2 className="font-display text-sm font-semibold text-ink dark:text-[#E7E9EC]">
                   {activeTask.label}
                 </h2>
                 <p className="text-xs text-muted">{activeTask.description}</p>
@@ -66,6 +68,7 @@ export default function App() {
                   onChange={setCode}
                   placeholder="Paste your code here…"
                   language={language}
+                  theme={theme}
                 />
               </div>
               <div className="min-h-[260px] md:min-h-0">

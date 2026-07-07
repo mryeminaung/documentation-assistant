@@ -27,7 +27,7 @@ const FEATURES = [
   'Syntax highlighting with CodeMirror',
   'Supports 6 languages with auto-detection',
   'Tab / Shift-Tab indent support',
-  'Dark theme for comfortable coding',
+  'Light & dark theme support',
   'Copy output to clipboard in one click',
   'Works offline in demo mode (mock responses)',
 ]
@@ -42,7 +42,7 @@ export default function About() {
             <User className="h-7 w-7" />
           </div>
           <div>
-            <h1 className="font-display text-xl font-bold text-ink">Documentation Assistant</h1>
+            <h1 className="font-display text-xl font-bold text-ink dark:text-[#E7E9EC]">Documentation Assistant</h1>
             <p className="text-sm text-muted">Powered by Claude AI</p>
           </div>
         </div>
@@ -52,7 +52,7 @@ export default function About() {
           <h2 className="font-display text-sm font-semibold uppercase tracking-wide text-muted">
             About
           </h2>
-          <p className="max-w-3xl text-sm leading-relaxed text-ink/80">
+          <p className="max-w-3xl text-sm leading-relaxed text-ink/80 dark:text-[#E7E9EC]/80">
             Documentation Assistant is a developer tool that uses Claude AI to generate
             code documentation, explanations, comments, summaries, and variable rename
             suggestions — instantly. Paste your code, pick a task, and get results.
@@ -66,12 +66,12 @@ export default function About() {
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {STEPS.map((step, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-lg border border-border bg-panel-alt p-4">
+              <div key={i} className="flex items-start gap-3 rounded-lg border border-border bg-panel-alt p-4 dark:bg-[#242A33]">
                 <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
                   {step.icon}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-ink">
+                  <p className="text-sm font-medium text-ink dark:text-[#E7E9EC]">
                     <span className="mr-1.5 font-mono text-xs text-muted/60">{i + 1}.</span>
                     {step.title}
                   </p>
@@ -89,7 +89,7 @@ export default function About() {
           </h2>
           <ul className="grid gap-2 sm:grid-cols-2">
             {FEATURES.map((f, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-ink/80">
+              <li key={i} className="flex items-start gap-2 text-sm text-ink/80 dark:text-[#E7E9EC]/80">
                 <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                 {f}
               </li>
