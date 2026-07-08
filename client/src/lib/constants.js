@@ -46,5 +46,23 @@ export const LANGUAGES = [
   'Dart',
 ]
 
+// Maps file extensions to language names for auto-detection on upload
+export const EXT_TO_LANG = {
+  js: 'JavaScript',
+  jsx: 'JavaScript',
+  mjs: 'JavaScript',
+  ts: 'TypeScript',
+  tsx: 'TypeScript',
+  py: 'Python',
+  pyw: 'Python',
+  java: 'Java',
+  cpp: 'C++',
+  cc: 'C++',
+  cxx: 'C++',
+  h: 'C++',
+  hpp: 'C++',
+  dart: 'Dart',
+}
+
 export const DEFAULT_LANGUAGE = 'JavaScript'
 export const DEFAULT_TASK = TASKS[0].id

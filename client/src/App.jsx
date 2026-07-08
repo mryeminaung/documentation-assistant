@@ -11,7 +11,7 @@ import Toast from './components/Toast'
 import { useClaudeRequest } from './hooks/useClaudeRequest'
 import { useTheme } from './hooks/useTheme'
 import { useToast } from './hooks/useToast'
-import { DEFAULT_LANGUAGE, DEFAULT_TASK, TASKS } from './lib/constants'
+import { DEFAULT_LANGUAGE, DEFAULT_TASK, TASKS, EXT_TO_LANG } from './lib/constants'
 
 const isCreatorTask = (id) => id === 'creator'
 
@@ -20,6 +20,7 @@ export default function App() {
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE)
   const [task, setTask] = useState(DEFAULT_TASK)
   const [code, setCode] = useState('')
+  const [uploadedFileName, setUploadedFileName] = useState(null)
 
   const { run, status, result, error } = useClaudeRequest()
   const { toast, showToast } = useToast()
@@ -31,6 +32,30 @@ export default function App() {
   const handleGenerate = () => {
     run({ task, code, language })
   }
+
+  const handleFileUpload = useCallback((file) => {
+    const ext = file.name.split('.').pop()?.toLowerCase()
+    if (!ext || !EXT_TO_LANG[ext]) {
+      showToast({ message: `Unsupported file type: .${ext ?? 'unknown'}`, tone: 'error' })
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const content = e.target?.result
+      if (typeof content === 'string') {
+        setCode(content)
+        setUploadedFileName(file.name)
+        setLanguage(EXT_TO_LANG[ext])
+      }
+    }
+    reader.readAsText(file)
+  }, [showToast])
+
+  const handleFileClear = useCallback(() => {
+    setCode('')
+    setUploadedFileName(null)
+  }, [])
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false)
@@ -69,6 +94,9 @@ export default function App() {
                   placeholder="Paste your code here…"
                   language={language}
                   theme={theme}
+                  onFileUpload={handleFileUpload}
+                  onFileClear={handleFileClear}
+                  fileName={uploadedFileName}
                 />
               </div>
               <div className="min-h-[260px] md:min-h-0">

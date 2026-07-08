@@ -1,22 +1,30 @@
 import { useEffect, useRef, useState } from 'react'
-import { FileCode, Braces, Hash, Code2, Check, ChevronDown } from 'lucide-react'
+import { Check, ChevronDown } from 'lucide-react'
 import { LANGUAGES } from '../lib/constants'
+import {
+  SiJavascript,
+  SiTypescript,
+  SiPython,
+  SiOpenjdk,
+  SiCplusplus,
+  SiDart,
+} from 'react-icons/si'
 
 const LANG_CONFIG = {
-  JavaScript: { icon: Braces, color: 'text-yellow-400', bg: 'bg-yellow-400/10' },
-  TypeScript: { icon: Code2, color: 'text-blue-400', bg: 'bg-blue-400/10' },
-  Python: { icon: Hash, color: 'text-green-400', bg: 'bg-green-400/10' },
-  Java: { icon: FileCode, color: 'text-red-400', bg: 'bg-red-400/10' },
-  'C++': { icon: Braces, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
-  Dart: { icon: Code2, color: 'text-sky-400', bg: 'bg-sky-400/10' },
+  JavaScript: { icon: SiJavascript, color: 'text-yellow-400', bg: 'bg-yellow-400/10' },
+  TypeScript: { icon: SiTypescript, color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  Python: { icon: SiPython, color: 'text-green-400', bg: 'bg-green-400/10' },
+  Java: { icon: SiOpenjdk, color: 'text-red-400', bg: 'bg-red-400/10' },
+  'C++': { icon: SiCplusplus, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
+  Dart: { icon: SiDart, color: 'text-sky-400', bg: 'bg-sky-400/10' },
 }
 
 function LangIcon({ lang, className = '' }) {
-  const cfg = LANG_CONFIG[lang] ?? { icon: Code2, color: 'text-muted', bg: 'bg-muted/10' }
+  const cfg = LANG_CONFIG[lang] ?? { icon: null, color: 'text-muted', bg: 'bg-muted/10' }
   const Icon = cfg.icon
   return (
     <span className={`inline-flex h-6 w-6 items-center justify-center rounded-md ${cfg.bg} ${className}`}>
-      <Icon className={`h-3.5 w-3.5 ${cfg.color}`} />
+      {Icon ? <Icon className={`h-4 w-4 ${cfg.color}`} /> : <span className={`text-xs font-bold ${cfg.color}`}>?</span>}
     </span>
   )
 }
@@ -71,11 +79,10 @@ export default function LanguageSelector({ value, onChange }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-panel-alt shadow-2xl shadow-black/30 dark:bg-[#242A33]">
+        <div className="absolute left-0 right-auto z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-panel-alt shadow-2xl shadow-black/30 sm:left-auto sm:right-0 dark:bg-[#242A33]">
           <div className="p-1.5">
             {LANGUAGES.map((lang) => {
               const isSelected = lang === value
-              const cfg = LANG_CONFIG[lang] ?? {}
               return (
                 <button
                   key={lang}
