@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import logo from '../assets/doc-assistant-logo.svg'
 
 const LINES = [
   'const app = new DocumentationAssistant();',
@@ -54,8 +55,8 @@ export default function SplashScreen({ onComplete }) {
       }`}
     >
       {/* Logo / Icon */}
-      <div className="splash-logo mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-accent/15 text-accent shadow-lg shadow-accent/10">
-        <span className="font-display text-3xl font-bold">{'</>'}</span>
+      <div className="splash-logo mb-3">
+        <img src={logo} alt="Documentation Assistant" className="h-20 w-20" />
       </div>
 
       {/* Title */}

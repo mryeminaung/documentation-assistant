@@ -1,4 +1,5 @@
-import { Code2, Sparkles, FileText, Lightbulb, User } from 'lucide-react'
+import { Code2, Sparkles, FileText, Lightbulb } from 'lucide-react'
+import logo from '../assets/doc-assistant-logo.svg'
 
 const STEPS = [
   {
@@ -30,6 +31,7 @@ const FEATURES = [
   'Light & dark theme support',
   'Copy output to clipboard in one click',
   'Works offline in demo mode (mock responses)',
+  'File upload & drag-and-drop support',
 ]
 
 export default function About() {
@@ -37,10 +39,8 @@ export default function About() {
     <div className="h-full w-full overflow-auto no-scrollbar">
       <div className="mx-auto max-w-5xl space-y-10 p-6 md:p-10">
         {/* Header */}
-        <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/15 text-accent">
-            <User className="h-7 w-7" />
-          </div>
+        <div className="flex items-center gap-1">
+          <img src={logo} alt="Documentation Assistant" className="h-16 w-16" />
           <div>
             <h1 className="font-display text-xl font-bold text-ink dark:text-[#E7E9EC]">Documentation Assistant</h1>
             <p className="text-sm text-muted">Powered by Claude AI</p>

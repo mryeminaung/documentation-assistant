@@ -1,4 +1,5 @@
 import ThemeToggle from './ThemeToggle'
+import logo from '../assets/doc-assistant-logo.svg'
 
 function GithubIcon({ className }) {
   return (
@@ -11,10 +12,8 @@ function GithubIcon({ className }) {
 export default function Header({ theme, onToggleTheme }) {
   return (
     <header className="flex items-center justify-between border-b border-border bg-panel px-4 py-3 sm:px-6 sm:py-4 dark:bg-[#1F242C]">
-      <div className="flex items-center gap-3">
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-accent/15 font-display text-sm font-semibold text-accent">
-          {'</>'}
-        </span>
+      <div className="flex items-center gap-1">
+        <img src={logo} alt="Documentation Assistant" className="h-12 w-12 shrink-0" />
         <div>
           <h1 className="font-display text-base font-semibold leading-none text-ink dark:text-[#E7E9EC] sm:text-lg">
             Documentation Assistant
