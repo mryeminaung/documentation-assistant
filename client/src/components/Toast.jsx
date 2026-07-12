@@ -13,7 +13,7 @@ export default function Toast({ toast }) {
         'animate-[toast-in_0.15s_ease-out]',
         isError
           ? 'border-accent/40 bg-panel-alt text-accent dark:bg-[#242A33]'
-          : 'border-teal/40 bg-panel-alt text-teal dark:bg-[#242A33]',
+          : 'border-accent/40 bg-panel-alt text-accent dark:bg-[#242A33]',
       ].join(' ')}
     >
       {isError ? '⚠ ' : '✓ '}

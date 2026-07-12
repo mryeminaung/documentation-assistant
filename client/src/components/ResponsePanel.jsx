@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Code2, Eye } from 'lucide-react'
 import LoadingIndicator from './LoadingIndicator'
 import CopyButton from './CopyButton'
 import ExportButton from './ExportButton'
@@ -13,28 +14,30 @@ export default function ResponsePanel({ status, result, error, onToast }) {
         <div className="flex items-center gap-2">
           <span className="font-mono text-xs text-muted">output.md</span>
           {status === 'success' && result && (
-            <div className="flex items-center rounded-md border border-border bg-panel text-[10px]">
+            <div className="flex items-center gap-0.5 rounded-lg border border-border bg-panel p-0.5 dark:bg-[#1F242C]">
               <button
                 type="button"
                 onClick={() => setViewMode('raw')}
-                className={`px-2 py-1 font-medium transition-colors ${
+                className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-all md:px-1.5 ${
                   viewMode === 'raw'
-                    ? 'bg-accent/15 text-accent'
-                    : 'text-muted hover:text-ink dark:hover:text-[#E7E9EC]'
+                    ? 'bg-accent text-white shadow-sm'
+                    : 'text-muted hover:bg-accent/10 hover:text-accent dark:hover:text-[#E7E9EC]'
                 }`}
               >
-                Raw
+                <Code2 className="h-3.5 w-3.5" />
+                <span className="hidden lg:inline">Raw</span>
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode('preview')}
-                className={`px-2 py-1 font-medium transition-colors ${
+                className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-all md:px-1.5 ${
                   viewMode === 'preview'
-                    ? 'bg-accent/15 text-accent'
-                    : 'text-muted hover:text-ink dark:hover:text-[#E7E9EC]'
+                    ? 'bg-accent text-white shadow-sm'
+                    : 'text-muted hover:bg-accent/10 hover:text-accent dark:hover:text-[#E7E9EC]'
                 }`}
               >
-                Preview
+                <Eye className="h-3.5 w-3.5" />
+                <span className="hidden lg:inline">Preview</span>
               </button>
             </div>
           )}

@@ -5,7 +5,7 @@ const STEPS = [
   {
     icon: <Code2 className="h-5 w-5" />,
     title: 'Paste your code',
-    desc: 'Drop any JavaScript, TypeScript, Python, Java, C++, or Dart code into the editor on the left.',
+    desc: 'Drop any JavaScript, TypeScript, Python, Java, C, C#, C++, Go, Ruby, PHP, SQL, Shell, or Dart code into the editor.',
   },
   {
     icon: <Sparkles className="h-5 w-5" />,
@@ -20,18 +20,20 @@ const STEPS = [
   {
     icon: <Lightbulb className="h-5 w-5" />,
     title: 'Copy & use',
-    desc: 'Hit the copy button on the output and paste the result wherever you need it.',
+    desc: 'Copy to clipboard, export as Markdown or PDF — then paste the result wherever you need it.',
   },
 ]
 
 const FEATURES = [
   'Syntax highlighting with CodeMirror',
-  'Supports 6 languages with auto-detection',
+  'Supports 13 languages with auto-detection',
   'Tab / Shift-Tab indent support',
   'Light & dark theme support',
   'Copy output to clipboard in one click',
-  'Works offline in demo mode (mock responses)',
-  'File upload & drag-and-drop support',
+  'Export as Markdown or PDF',
+  'Import files via drag-and-drop',
+  'Raw & preview modes for output',
+  'Responsive icon-only buttons on smaller screens',
 ]
 
 export default function About() {

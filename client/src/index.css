@@ -25,6 +25,19 @@ body {
 }
 .cm-editor-hack .cm-scroller {
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.border') transparent;
+}
+.cm-editor-hack .cm-scroller::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.cm-editor-hack .cm-scroller::-webkit-scrollbar-thumb {
+  background: theme('colors.border');
+  border-radius: 4px;
+}
+.cm-editor-hack .cm-scroller::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 /* Hide scrollbar */

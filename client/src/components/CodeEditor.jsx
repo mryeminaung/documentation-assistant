@@ -271,10 +271,11 @@ export default function CodeEditor({ value, onChange, placeholder, language, the
         <button
           type="button"
           onClick={handleUploadClick}
-          className="ml-auto rounded p-1 text-muted transition-colors hover:bg-accent/10 hover:text-accent"
-          title="Upload file"
+          className="ml-auto flex items-center gap-1.5 rounded-md border border-border px-2 py-1.5 text-xs font-medium text-muted transition-colors hover:border-accent/40 hover:text-accent md:px-1.5"
+          title="Import file"
         >
           <Upload className="h-3.5 w-3.5" />
+          <span className="hidden lg:inline">Import</span>
         </button>
       </div>
 

@@ -1,8 +1,8 @@
 import 'dotenv/config'
 
 export const config = {
-  port: process.env.PORT || 5000,
-  clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+  port: process.env.PORT || 8000,
+  clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
   anthropic: {
     apiKey: process.env.ANTHROPIC_API_KEY,
     model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-5',
@@ -24,5 +24,12 @@ export const SUPPORTED_LANGUAGES = [
   'Python',
   'Java',
   'C++',
+  'C',
+  'C#',
+  'Go',
+  'Ruby',
+  'PHP',
+  'SQL',
+  'Shell',
   'Dart',
 ]

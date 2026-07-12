@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Clipboard, ClipboardCheck } from 'lucide-react'
 
 export default function CopyButton({ text, onCopied }) {
   const [copied, setCopied] = useState(false)
@@ -19,11 +20,12 @@ export default function CopyButton({ text, onCopied }) {
     <button
       type="button"
       onClick={handleCopy}
-      className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1
-                 font-mono text-xs text-muted transition-colors hover:border-teal
-                 hover:text-teal focus-visible:outline-none"
+      className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5
+                 font-mono text-xs text-muted transition-colors hover:border-accent/40
+                 hover:text-accent focus-visible:outline-none md:px-1.5"
     >
-      {copied ? '✓ Copied' : 'Copy'}
+      {copied ? <ClipboardCheck className="h-3.5 w-3.5" /> : <Clipboard className="h-3.5 w-3.5" />}
+      <span className="hidden lg:inline">{copied ? 'Copied' : 'Copy'}</span>
     </button>
   )
 }

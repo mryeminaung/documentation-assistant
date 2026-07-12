@@ -18,9 +18,31 @@ function downloadMarkdown(content) {
   downloadFile(content, 'documentation.md', 'text/markdown')
 }
 
+function stripMarkdown(md) {
+  return md
+    .replace(/^#{1,6}\s+/gm, '')          // headings
+    .replace(/\*\*(.+?)\*\*/g, '$1')      // bold
+    .replace(/\*(.+?)\*/g, '$1')          // italic
+    .replace(/__(.+?)__/g, '$1')          // bold alt
+    .replace(/_(.+?)_/g, '$1')            // italic alt
+    .replace(/~~(.+?)~~/g, '$1')          // strikethrough
+    .replace(/`{3}[\s\S]*?`{3}/g, (m) => // code blocks
+      m.replace(/`{3}\w*\n?/g, '').replace(/`{3}/g, ''))
+    .replace(/`(.+?)`/g, '$1')            // inline code
+    .replace(/^\s*[-*+]\s+/gm, '• ')      // unordered lists
+    .replace(/^\s*\d+\.\s+/gm, (m) => m.trim()) // ordered lists
+    .replace(/^\s*>+\s+/gm, '')           // blockquotes
+    .replace(/!?\[(.+?)\]\(.+?\)/g, '$1') // links and images
+    .replace(/^-{3,}$/gm, '')             // horizontal rules
+    .replace(/^\s*$/gm, '')               // empty lines
+    .replace(/\n{3,}/g, '\n\n')           // excess newlines
+    .trim()
+}
+
 function downloadPDF(content) {
   const doc = new jsPDF()
-  const lines = doc.splitTextToSize(content, 180)
+  const plainText = stripMarkdown(content)
+  const lines = doc.splitTextToSize(plainText, 180)
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(11)
   let y = 20
@@ -55,11 +77,11 @@ export default function ExportButton({ content }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-muted transition-colors hover:border-accent/40 hover:text-accent"
+        className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-muted transition-colors hover:border-accent/40 hover:text-accent md:px-1.5"
         title="Export"
       >
         <Download className="h-3.5 w-3.5" />
-        <span>Export</span>
+        <span className="hidden lg:inline">Export</span>
       </button>
 
       {open && (
