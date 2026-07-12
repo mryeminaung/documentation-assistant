@@ -1,5 +1,6 @@
 import LoadingIndicator from './LoadingIndicator'
 import CopyButton from './CopyButton'
+import ExportButton from './ExportButton'
 
 export default function ResponsePanel({ status, result, error, onToast }) {
   return (
@@ -7,7 +8,10 @@ export default function ResponsePanel({ status, result, error, onToast }) {
       <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
         <span className="font-mono text-xs text-muted">output.md</span>
         {status === 'success' && result && (
-          <CopyButton text={result} onCopied={onToast} />
+          <div className="flex items-center gap-2">
+            <ExportButton content={result} />
+            <CopyButton text={result} onCopied={onToast} />
+          </div>
         )}
       </div>
 
