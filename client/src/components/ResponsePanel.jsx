@@ -1,12 +1,44 @@
+import { useState } from 'react'
 import LoadingIndicator from './LoadingIndicator'
 import CopyButton from './CopyButton'
 import ExportButton from './ExportButton'
+import MarkdownPreview from './MarkdownPreview'
 
 export default function ResponsePanel({ status, result, error, onToast }) {
+  const [viewMode, setViewMode] = useState('raw')
+
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-panel-alt shadow-sm dark:bg-[#242A33]">
       <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
-        <span className="font-mono text-xs text-muted">output.md</span>
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-xs text-muted">output.md</span>
+          {status === 'success' && result && (
+            <div className="flex items-center rounded-md border border-border bg-panel text-[10px]">
+              <button
+                type="button"
+                onClick={() => setViewMode('raw')}
+                className={`px-2 py-1 font-medium transition-colors ${
+                  viewMode === 'raw'
+                    ? 'bg-accent/15 text-accent'
+                    : 'text-muted hover:text-ink dark:hover:text-[#E7E9EC]'
+                }`}
+              >
+                Raw
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('preview')}
+                className={`px-2 py-1 font-medium transition-colors ${
+                  viewMode === 'preview'
+                    ? 'bg-accent/15 text-accent'
+                    : 'text-muted hover:text-ink dark:hover:text-[#E7E9EC]'
+                }`}
+              >
+                Preview
+              </button>
+            </div>
+          )}
+        </div>
         {status === 'success' && result && (
           <div className="flex items-center gap-2">
             <ExportButton content={result} />
@@ -43,10 +75,14 @@ export default function ResponsePanel({ status, result, error, onToast }) {
           </div>
         )}
 
-        {status === 'success' && (
+        {status === 'success' && viewMode === 'raw' && (
           <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-ink dark:text-[#E7E9EC]">
             {result}
           </pre>
+        )}
+
+        {status === 'success' && viewMode === 'preview' && (
+          <MarkdownPreview content={result} />
         )}
       </div>
     </div>
