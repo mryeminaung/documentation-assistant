@@ -18,6 +18,13 @@ const EXT_MAP = {
   Python: 'py',
   Java: 'java',
   'C++': 'cpp',
+  C: 'c',
+  'C#': 'cs',
+  Go: 'go',
+  Ruby: 'rb',
+  PHP: 'php',
+  SQL: 'sql',
+  Shell: 'sh',
   Dart: 'dart',
 }
 const languageConf = new Compartment()
@@ -287,7 +294,7 @@ export default function CodeEditor({ value, onChange, placeholder, language, the
           <div className="absolute inset-0 z-50 flex flex-col items-center justify-center border-2 border-dashed border-accent/60 bg-accent/10 backdrop-blur-sm">
             <Upload className="mb-2 h-8 w-8 text-accent" />
             <p className="text-sm font-medium text-accent">Drop your file here</p>
-            <p className="mt-1 text-xs text-muted">Supported: JS, TS, Python, Java, C++, Dart</p>
+            <p className="mt-1 text-xs text-muted">Supported: JS, TS, Python, Java, C, C#, C++, Go, Ruby, PHP, SQL, Shell, Dart</p>
           </div>
         )}
       </div>
@@ -297,7 +304,7 @@ export default function CodeEditor({ value, onChange, placeholder, language, the
         ref={fileInputRef}
         type="file"
         className="hidden"
-        accept=".js,.jsx,.mjs,.ts,.tsx,.py,.pyw,.java,.cpp,.cc,.cxx,.h,.hpp,.dart"
+        accept=".js,.jsx,.mjs,.ts,.tsx,.py,.pyw,.java,.cpp,.cc,.cxx,.h,.hpp,.c,.cs,.go,.rb,.php,.sql,.sh,.bash,.zsh,.dart"
         onChange={handleFileInputChange}
       />
     </div>

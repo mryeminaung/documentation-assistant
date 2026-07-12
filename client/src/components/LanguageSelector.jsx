@@ -7,6 +7,13 @@ import {
   SiPython,
   SiOpenjdk,
   SiCplusplus,
+  SiC,
+  SiDotnet,
+  SiGo,
+  SiRuby,
+  SiPhp,
+  SiSqlite,
+  SiGnubash,
   SiDart,
 } from 'react-icons/si'
 
@@ -16,6 +23,13 @@ const LANG_CONFIG = {
   Python: { icon: SiPython, color: 'text-green-400', bg: 'bg-green-400/10' },
   Java: { icon: SiOpenjdk, color: 'text-red-400', bg: 'bg-red-400/10' },
   'C++': { icon: SiCplusplus, color: 'text-cyan-400', bg: 'bg-cyan-400/10' },
+  C: { icon: SiC, color: 'text-blue-300', bg: 'bg-blue-300/10' },
+  'C#': { icon: SiDotnet, color: 'text-purple-400', bg: 'bg-purple-400/10' },
+  Go: { icon: SiGo, color: 'text-cyan-300', bg: 'bg-cyan-300/10' },
+  Ruby: { icon: SiRuby, color: 'text-red-500', bg: 'bg-red-500/10' },
+  PHP: { icon: SiPhp, color: 'text-indigo-400', bg: 'bg-indigo-400/10' },
+  SQL: { icon: SiSqlite, color: 'text-orange-400', bg: 'bg-orange-400/10' },
+  Shell: { icon: SiGnubash, color: 'text-green-300', bg: 'bg-green-300/10' },
   Dart: { icon: SiDart, color: 'text-sky-400', bg: 'bg-sky-400/10' },
 }
 
@@ -80,7 +94,7 @@ export default function LanguageSelector({ value, onChange }) {
 
       {open && (
         <div className="absolute left-0 right-auto z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-panel-alt shadow-2xl shadow-black/30 sm:left-auto sm:right-0 dark:bg-[#242A33]">
-          <div className="p-1.5">
+          <div className="max-h-64 overflow-y-auto p-1.5 thin-scroll">
             {LANGUAGES.map((lang) => {
               const isSelected = lang === value
               return (

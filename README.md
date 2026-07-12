@@ -21,9 +21,13 @@ The project is intentionally small in scope: no accounts, no history, no databas
 - **Generate Documentation** — produces Markdown docs (purpose, parameters, returns, usage example)
 - **Summarize File** — a short, high-level summary of an entire file
 - **Improve Variable Names** — a table of naming suggestions with reasons, logic untouched
+- **File Upload & Drag-and-Drop** — upload `.js`, `.py`, `.go`, and more directly into the editor
+- **13 Language Support** — JavaScript, TypeScript, Python, Java, C, C#, C++, Go, Ruby, PHP, SQL, Shell, Dart
+- **Language Icons** — real SVG icons for each language in the selector
 - Task and language selection, a code editor pane, and a response panel in one screen
 - Loading, empty, and error states, plus a copy-to-clipboard toast
 - Responsive layout — usable on mobile, tablet, and desktop
+- Light/dark mode with theme toggle
 
 ## Screenshots
 
@@ -58,6 +62,9 @@ The project is intentionally small in scope: no accounts, no history, no databas
 
 - React 18 + Vite
 - Tailwind CSS
+- CodeMirror (code editor)
+- react-icons (language icons)
+- lucide-react (UI icons)
 
 **Backend**
 

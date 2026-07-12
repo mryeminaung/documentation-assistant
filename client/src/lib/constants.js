@@ -43,6 +43,13 @@ export const LANGUAGES = [
   'Python',
   'Java',
   'C++',
+  'C',
+  'C#',
+  'Go',
+  'Ruby',
+  'PHP',
+  'SQL',
+  'Shell',
   'Dart',
 ]
 
@@ -61,6 +68,15 @@ export const EXT_TO_LANG = {
   cxx: 'C++',
   h: 'C++',
   hpp: 'C++',
+  c: 'C',
+  cs: 'C#',
+  go: 'Go',
+  rb: 'Ruby',
+  php: 'PHP',
+  sql: 'SQL',
+  sh: 'Shell',
+  bash: 'Shell',
+  zsh: 'Shell',
   dart: 'Dart',
 }
 

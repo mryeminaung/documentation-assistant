@@ -8,8 +8,15 @@ const languageMap = {
   TypeScript: () => javascript({ jsx: true, typescript: true }),
   Python: () => python(),
   Java: () => java(),
-  // C++ and Dart have no CodeMirror lang; fall back to plain text
+  // No dedicated CodeMirror lang; fall back to plain text
   'C++': () => [],
+  C: () => [],
+  'C#': () => [],
+  Go: () => [],
+  Ruby: () => [],
+  PHP: () => [],
+  SQL: () => [],
+  Shell: () => [],
   Dart: () => [],
 }
 
