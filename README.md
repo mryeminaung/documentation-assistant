@@ -31,30 +31,28 @@ The project is intentionally small in scope: no accounts, no history, no databas
 
 ## Screenshots
 
-<p align="center">
-<img src="screenshots/01-explain-code.png" alt="Explain Code" width="100%" /><br/>
-<strong>Explain Code</strong>
-</p>
-
-<p align="center">
-<img src="screenshots/02-generate-comments.png" alt="Generate Comments" width="100%" /><br/>
-<strong>Generate Comments</strong>
-</p>
-
-<p align="center">
-<img src="screenshots/03-generate-docs.png" alt="Generate Documentation" width="100%" /><br/>
-<strong>Generate Documentation</strong>
-</p>
-
-<p align="center">
-<img src="screenshots/04-summarize-file.png" alt="Summarize File" width="100%" /><br/>
-<strong>Summarize File</strong>
-</p>
-
-<p align="center">
-<img src="screenshots/05-refactor-names.png" alt="Improve Names" width="100%" /><br/>
-<strong>Improve Variable Names</strong>
-</p>
+<table>
+  <tr>
+    <th style="text-align: center;">About</th>
+    <th style="text-align: center;">Explain Code</th>
+    <th style="text-align: center;">Generate Comments</th>
+  </tr>
+  <tr>
+    <td style="text-align: center;"><img src="screenshots/00-about-assistant.png" alt="About" width="100%" height="200" /></td>
+    <td style="text-align: center;"><img src="screenshots/01-explain-code.png" alt="Explain Code" width="100%" height="200" /></td>
+    <td style="text-align: center;"><img src="screenshots/02-generate-comments.png" alt="Generate Comments" width="100%" height="200" /></td>
+  </tr>
+  <tr>
+    <th style="text-align: center;">Generate Documentation</th>
+    <th style="text-align: center;">Summarize File</th>
+    <th style="text-align: center;">Improve Variable Names</th>
+  </tr>
+  <tr>
+    <td style="text-align: center;"><img src="screenshots/03-generate-docs.png" alt="Generate Docs" width="100%" height="200" /></td>
+    <td style="text-align: center;"><img src="screenshots/04-summarize-file.png" alt="Summarize" width="100%" height="200" /></td>
+    <td style="text-align: center;"><img src="screenshots/05-refactor-names.png" alt="Rename" width="100%" height="200" /></td>
+  </tr>
+</table>
 
 ## Technologies
 
@@ -169,6 +167,7 @@ documentation-assistant/
 │       └── lib/
 │           └── constants.js
 ├── screenshots/
+│   ├── 00-about-assistant.png
 │   ├── 01-explain-code.png
 │   ├── 02-generate-comments.png
 │   ├── 03-generate-docs.png
@@ -204,8 +203,6 @@ documentation-assistant/
 ## Future Improvements
 
 - Streaming responses (SSE) instead of waiting for the full completion
-- File upload or GitHub repo linking, instead of paste-only input
-- Syntax highlighting in the code editor (e.g. CodeMirror or Monaco)
 - Multi-turn follow-up questions about the same code
 - Save/view history of past analyses (would require a database)
 - Authentication and per-user rate limiting
