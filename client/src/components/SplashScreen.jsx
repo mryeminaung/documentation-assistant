@@ -64,7 +64,7 @@ export default function SplashScreen({ onComplete }) {
         Documentation Assistant
       </h1>
       <p className="splash-subtitle mt-2 text-sm text-muted">
-        Powered by Claude AI
+        AI-powered code documentation
       </p>
 
       {/* Code typing animation */}

@@ -1,0 +1,25 @@
+{
+  "name": "documentation-assistant",
+  "version": "1.0.0",
+  "description": "A web application that uses the Claude API to help developers understand, document, and clean up their code — explain a snippet, generate comments, produce Markdown docs, summarize a file, or get better variable names, all from one interface.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mryeminaung/documentation-assistant.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mryeminaung/documentation-assistant/issues"
+  },
+  "homepage": "https://github.com/mryeminaung/documentation-assistant#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
+}
