@@ -3,13 +3,13 @@ import { TASKS } from "../lib/constants";
 // Desktop: vertical binder tabs on the side of the editor.
 // Mobile (< md): collapses into a horizontal, scrollable pill row so
 // the workspace below still gets full width.
-export default function TaskTabs({ value, onChange }) {
+export default function TaskTabs({ value, onChange, className = '' }) {
 	return (
 		<nav
 			aria-label="Task"
-			className="thin-scroll flex gap-2 overflow-x-auto border-b border-border bg-panel
+			className={`thin-scroll flex gap-2 overflow-x-auto border-b border-border bg-panel
                  px-4 py-3 md:flex-col md:gap-1 md:overflow-visible md:border-b-0
-                 md:border-r md:px-0 md:py-4 dark:bg-[#1F242C]">
+                 md:border-r md:px-0 md:py-4 dark:bg-[#1F242C] ${className}`}>
 			{TASKS.map((task) => {
 				const isActive = task.id === value;
 				return (
