@@ -11,31 +11,32 @@ function GithubIcon({ className }) {
 
 export default function Header({ theme, onToggleTheme }) {
   return (
-    <header className="flex items-center justify-between border-b border-border bg-panel px-4 py-3 sm:px-6 sm:py-4 dark:bg-[#1F242C]">
-      <div className="flex items-center gap-1">
-        <img src={logo} alt="Documentation Assistant" className="h-12 w-12 shrink-0" />
-        <div>
-          <h1 className="font-display text-base font-semibold leading-none text-ink dark:text-[#E7E9EC] sm:text-lg">
+    <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-panel px-4 sm:px-5 md:px-6 dark:bg-[#1F242C]">
+      <div className="flex min-w-0 items-center gap-3">
+        <img src={logo} alt="" className="h-9 w-9 shrink-0 sm:h-10 sm:w-10" />
+        <div className="min-w-0">
+          <h1 className="truncate font-display text-sm font-semibold leading-tight tracking-[-0.01em] text-ink sm:text-base dark:text-[#E7E9EC]">
             Documentation Assistant
           </h1>
-          <p className="mt-1 hidden text-xs text-muted sm:block">
-            Paste code, pick a task, get an explanation or docs back.
+          <p className="mt-0.5 hidden truncate text-[11px] leading-tight text-muted sm:block">
+            AI-powered code documentation workspace
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="ml-3 flex shrink-0 items-center gap-2">
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
         <a
           href="https://github.com/mryeminaung/documentation-assistant"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="View source on GitHub"
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-panel text-muted
-                     transition-colors hover:border-accent/40 hover:text-accent
-                     focus-visible:outline-none dark:bg-[#1F242C]"
+          title="View source on GitHub"
+          className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-panel text-muted
+                     transition-[border-color,background-color,color] duration-150 hover:border-accent/40 hover:bg-accent/5 hover:text-accent
+                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-panel dark:bg-[#1F242C] dark:focus-visible:ring-offset-[#1F242C]"
         >
-          <GithubIcon className="h-4 w-4" />
+          <GithubIcon className="h-[18px] w-[18px]" />
         </a>
       </div>
     </header>

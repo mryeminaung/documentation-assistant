@@ -1,46 +1,34 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Sidebar toggle', () => {
+test.describe('Sidebar mode', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
     await page.waitForSelector('.splash-dot', { state: 'hidden', timeout: 10000 })
   })
 
-  test('hamburger button is visible on desktop', async ({ page }) => {
+  test('collapse button is visible on desktop', async ({ page }) => {
     await page.setViewportSize({ width: 1024, height: 768 })
-    const hamburger = page.getByRole('button', { name: /close sidebar|open sidebar/i })
-    await expect(hamburger).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Collapse sidebar' })).toBeVisible()
   })
 
-  test('hamburger button is hidden on mobile', async ({ page }) => {
+  test('sidebar mode button is hidden on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
-    const hamburger = page.getByRole('button', { name: /close sidebar|open sidebar/i })
-    await expect(hamburger).toBeHidden()
+    await expect(page.getByRole('button', { name: /collapse sidebar|expand sidebar/i })).toBeHidden()
   })
 
-  test('clicking hamburger hides the sidebar', async ({ page }) => {
+  test('clicking collapse switches to the compact rail', async ({ page }) => {
     await page.setViewportSize({ width: 1024, height: 768 })
     const nav = page.locator('nav[aria-label="Task"]')
-    await expect(nav).toBeVisible()
-
-    const hamburger = page.getByRole('button', { name: 'Close sidebar' })
-    await hamburger.click()
-
-    await expect(nav).toBeHidden()
+    await page.getByRole('button', { name: 'Collapse sidebar' }).click()
+    await expect(nav).toHaveAttribute('data-compact', 'true')
+    await expect(page.getByRole('button', { name: 'Explain Code' })).toBeVisible()
   })
 
-  test('clicking hamburger again shows the sidebar', async ({ page }) => {
+  test('clicking expand restores the labeled sidebar', async ({ page }) => {
     await page.setViewportSize({ width: 1024, height: 768 })
     const nav = page.locator('nav[aria-label="Task"]')
-    const hamburger = page.getByRole('button', { name: 'Close sidebar' })
-
-    // Hide
-    await hamburger.click()
-    await expect(nav).toBeHidden()
-
-    // Show again
-    const openButton = page.getByRole('button', { name: 'Open sidebar' })
-    await openButton.click()
-    await expect(nav).toBeVisible()
+    await page.getByRole('button', { name: 'Collapse sidebar' }).click()
+    await page.getByRole('button', { name: 'Expand sidebar' }).click()
+    await expect(nav).toHaveAttribute('data-compact', 'false')
   })
 })
