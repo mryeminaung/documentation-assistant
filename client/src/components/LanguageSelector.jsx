@@ -45,7 +45,10 @@ function LangIcon({ lang, className = '' }) {
 
 export default function LanguageSelector({ value, onChange }) {
   const [open, setOpen] = useState(false)
+  const [, setActiveIndex] = useState(() => Math.max(LANGUAGES.indexOf(value), 0))
   const ref = useRef(null)
+  const triggerRef = useRef(null)
+  const optionRefs = useRef([])
 
   // Close on outside click
   useEffect(() => {
@@ -57,34 +60,71 @@ export default function LanguageSelector({ value, onChange }) {
     return () => document.removeEventListener('mousedown', handler)
   }, [open])
 
-  // Close on Escape
   useEffect(() => {
     if (!open) return
-    const handler = (e) => {
-      if (e.key === 'Escape') setOpen(false)
-    }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
+    const selectedIndex = Math.max(LANGUAGES.indexOf(value), 0)
+    setActiveIndex(selectedIndex)
+    requestAnimationFrame(() => optionRefs.current[selectedIndex]?.focus())
   }, [open])
 
   const handleSelect = (lang) => {
     onChange(lang)
     setOpen(false)
+    triggerRef.current?.focus()
+  }
+
+  const focusOption = (index) => {
+    const nextIndex = (index + LANGUAGES.length) % LANGUAGES.length
+    setActiveIndex(nextIndex)
+    optionRefs.current[nextIndex]?.focus()
+  }
+
+  const handleTriggerKeyDown = (event) => {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
+    event.preventDefault()
+    setOpen(true)
+    setActiveIndex(event.key === 'ArrowUp' ? LANGUAGES.length - 1 : Math.max(LANGUAGES.indexOf(value), 0))
+  }
+
+  const handleOptionKeyDown = (event, index) => {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault()
+      focusOption(index + 1)
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault()
+      focusOption(index - 1)
+    } else if (event.key === 'Home') {
+      event.preventDefault()
+      focusOption(0)
+    } else if (event.key === 'End') {
+      event.preventDefault()
+      focusOption(LANGUAGES.length - 1)
+    } else if (event.key === 'Escape') {
+      event.preventDefault()
+      setOpen(false)
+      triggerRef.current?.focus()
+    }
   }
 
   return (
     <div ref={ref} className="relative">
-      <span className="mb-1.5 block font-mono text-[10px] uppercase tracking-widest text-muted/60">
+      <span id="language-label" className="mb-1.5 block font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-muted/70">
         Language
       </span>
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2.5 rounded-lg border border-border bg-panel-alt px-3 py-2 text-sm font-medium text-ink
-                   transition-colors hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none dark:bg-[#242A33] dark:text-[#E7E9EC]"
+        onKeyDown={handleTriggerKeyDown}
+        aria-labelledby="language-label language-value"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls="language-options"
+        className="flex h-11 min-w-40 items-center gap-2.5 rounded-lg border border-border bg-panel px-2.5 text-sm font-medium text-ink shadow-sm
+                   transition-[border-color,background-color,box-shadow] hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 dark:bg-[#1F242C] dark:text-[#E7E9EC]"
       >
         <LangIcon lang={value} />
-        <span>{value}</span>
+        <span id="language-value">{value}</span>
         <ChevronDown
           className={`ml-auto h-4 w-4 text-muted transition-transform duration-200 ${
             open ? 'rotate-180' : ''
@@ -93,20 +133,25 @@ export default function LanguageSelector({ value, onChange }) {
       </button>
 
       {open && (
-        <div className="absolute left-0 right-auto z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-panel-alt shadow-2xl shadow-black/30 sm:left-auto sm:right-0 dark:bg-[#242A33]">
-          <div className="max-h-64 overflow-y-auto p-1.5 thin-scroll">
+        <div className="absolute left-0 right-auto z-50 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-panel shadow-xl sm:left-auto sm:right-0 dark:bg-[#1F242C]">
+          <div id="language-options" role="listbox" aria-labelledby="language-label" className="thin-scroll max-h-64 overflow-y-auto p-1.5">
             {LANGUAGES.map((lang) => {
               const isSelected = lang === value
+              const index = LANGUAGES.indexOf(lang)
               return (
                 <button
+                  ref={(element) => { optionRefs.current[index] = element }}
                   key={lang}
                   type="button"
+                  role="option"
+                  aria-selected={isSelected}
                   onClick={() => handleSelect(lang)}
-                  className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors
+                  onKeyDown={(event) => handleOptionKeyDown(event, index)}
+                  className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent
                     ${
                       isSelected
-                        ? 'bg-accent/15 text-accent'
-                        : 'text-ink hover:bg-accent/10 hover:text-accent dark:text-[#E7E9EC]'
+                        ? 'bg-accent/10 text-accent-dim dark:text-amber-400'
+                        : 'text-ink hover:bg-panel-alt hover:text-accent-dim dark:text-[#E7E9EC] dark:hover:bg-[#242A33] dark:hover:text-amber-400'
                     }`}
                 >
                   <LangIcon lang={lang} />

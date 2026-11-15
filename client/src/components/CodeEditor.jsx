@@ -30,6 +30,29 @@ const EXT_MAP = {
 const languageConf = new Compartment()
 const themeConf = new Compartment()
 
+const editorBaseTheme = EditorView.theme({
+  '&': {
+    fontSize: '13px',
+  },
+  '&.cm-focused': {
+    outline: 'none',
+  },
+  '.cm-content': {
+    padding: '12px 0',
+    fontFamily: '"IBM Plex Mono", monospace',
+    lineHeight: '1.65',
+  },
+  '.cm-line': {
+    padding: '0 14px',
+  },
+  '.cm-gutterElement': {
+    padding: '0 10px 0 8px',
+  },
+  '.cm-placeholder': {
+    fontStyle: 'normal',
+  },
+})
+
 // Light theme for CodeMirror matching the app's light palette
 const oneLight = EditorView.theme({
   '&': { backgroundColor: '#F0F1F3' },
@@ -120,13 +143,17 @@ export default function CodeEditor({ value, onChange, placeholder, language, the
         history(),
         bracketMatching(),
         indentOnInput(),
-        themeConf.of(theme === 'dark' ? oneDark : oneLight),
-        ...(theme !== 'dark' ? [lightHighlighting] : []),
+        editorBaseTheme,
+        themeConf.of(theme === 'dark' ? oneDark : [oneLight, lightHighlighting]),
         languageConf.of(getLanguageExtension(language)),
         EditorView.lineWrapping,
         ph(placeholder ?? 'Paste your code here…'),
         updateListener,
         EditorState.tabSize.of(TAB_SIZE),
+        EditorView.contentAttributes.of({
+          'aria-label': 'Source code editor',
+          'aria-multiline': 'true',
+        }),
       ],
     })
 
@@ -166,7 +193,7 @@ export default function CodeEditor({ value, onChange, placeholder, language, the
     const view = viewRef.current
     if (!view) return
     view.dispatch({
-      effects: themeConf.reconfigure(theme === 'dark' ? oneDark : oneLight),
+      effects: themeConf.reconfigure(theme === 'dark' ? oneDark : [oneLight, lightHighlighting]),
     })
   }, [theme])
 
@@ -237,45 +264,49 @@ export default function CodeEditor({ value, onChange, placeholder, language, the
 
   return (
     <div
-      className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-panel-alt shadow-sm"
+      className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-panel-alt shadow-sm transition-shadow focus-within:border-accent/50 focus-within:shadow-md dark:bg-[#242A33]"
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
       {/* Header bar */}
-      <div className="flex items-center gap-1.5 border-b border-border bg-panel-alt px-4 py-2.5 dark:bg-[#242A33]">
-        <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-        <span className="h-2.5 w-2.5 rounded-full bg-orange-500" />
-        <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
+      <div className="flex min-h-14 items-center gap-3 border-b border-border bg-panel px-3 sm:px-4 dark:bg-[#1F242C]">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent-dim dark:text-amber-400">
+          <FileCode className="h-4 w-4" aria-hidden="true" />
+        </div>
 
-        <div className="ml-2 flex items-center gap-1.5">
-          {fileName ? (
-            <>
-              <FileCode className="h-3.5 w-3.5 text-muted" />
-              <span className="font-mono text-xs text-muted">{fileName}</span>
-              <button
-                type="button"
-                onClick={handleClear}
-                className="ml-0.5 rounded p-0.5 text-muted transition-colors hover:bg-red-500/15 hover:text-red-400"
-                title="Clear file"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </>
-          ) : (
-            <span className="font-mono text-xs text-muted">source.{EXT_MAP[language] ?? 'txt'}</span>
-          )}
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-xs font-semibold text-ink dark:text-[#E7E9EC]">Source code</p>
+          <div className="mt-0.5 flex min-w-0 items-center gap-1.5">
+            {fileName ? (
+              <>
+                <span className="truncate font-mono text-[11px] text-muted" title={fileName}>{fileName}</span>
+                <button
+                  type="button"
+                  onClick={handleClear}
+                  aria-label="Clear imported file"
+                  className="ml-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded text-muted transition-colors hover:bg-red-500/10 hover:text-red-600 focus-visible:outline-none dark:hover:text-red-400"
+                  title="Clear file"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </>
+            ) : (
+              <span className="font-mono text-[11px] text-muted">source.{EXT_MAP[language] ?? 'txt'}</span>
+            )}
+          </div>
         </div>
 
         <button
           type="button"
           onClick={handleUploadClick}
-          className="ml-auto flex items-center gap-1.5 rounded-md border border-border px-2 py-1.5 text-xs font-medium text-muted transition-colors hover:border-accent/40 hover:text-accent md:px-1.5"
+          aria-label="Import source file"
+          className="flex h-11 shrink-0 items-center gap-1.5 rounded-lg border border-border bg-panel-alt px-3 text-xs font-medium text-muted transition-[border-color,background-color,color] hover:border-accent/40 hover:bg-accent/5 hover:text-accent-dim focus-visible:outline-none dark:bg-[#242A33] dark:hover:text-amber-400 sm:h-9 sm:px-2.5"
           title="Import file"
         >
           <Upload className="h-3.5 w-3.5" />
-          <span className="hidden lg:inline">Import</span>
+          <span className="hidden sm:inline">Import</span>
         </button>
       </div>
 
@@ -285,7 +316,7 @@ export default function CodeEditor({ value, onChange, placeholder, language, the
 
         {/* Rejection toast */}
         {rejectMsg && (
-          <div className="absolute top-2 left-1/2 z-50 -translate-x-1/2 rounded-md border border-red-500/40 bg-panel-alt px-3 py-1.5 text-xs font-medium text-red-400 shadow-lg dark:bg-[#242A33]">
+          <div role="alert" className="absolute left-1/2 top-2 z-50 -translate-x-1/2 rounded-md border border-red-500/40 bg-panel px-3 py-1.5 text-xs font-medium text-red-600 shadow-lg dark:bg-[#242A33] dark:text-red-400">
             ⚠ {rejectMsg}
           </div>
         )}
