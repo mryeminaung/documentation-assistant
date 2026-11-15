@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-muted: 107 114 128;
+}
+
+.dark {
+  --color-muted: 156 163 175;
+}
+
 html,
 body,
 #root {

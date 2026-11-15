@@ -10,7 +10,7 @@ export default {
         panel: '#FFFFFF',
         'panel-alt': '#F0F1F3',
         ink: '#1A1D23',
-        muted: '#6B7280',
+        muted: 'rgb(var(--color-muted) / <alpha-value>)',
         border: '#D1D5DB',
         accent: {
           DEFAULT: '#D97706',

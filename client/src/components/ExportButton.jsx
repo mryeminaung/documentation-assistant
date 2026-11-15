@@ -60,6 +60,7 @@ function downloadPDF(content) {
 export default function ExportButton({ content }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
+  const optionRefs = useRef([])
 
   useEffect(() => {
     if (!open) return
@@ -70,6 +71,31 @@ export default function ExportButton({ content }) {
     return () => document.removeEventListener('mousedown', handler)
   }, [open])
 
+  useEffect(() => {
+    if (!open) return
+    requestAnimationFrame(() => optionRefs.current[0]?.focus())
+    const handler = (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+        ref.current?.querySelector('button')?.focus()
+      }
+    }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [open])
+
+  const handleOptionKeyDown = (event, index) => {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp' && event.key !== 'Home' && event.key !== 'End') return
+    event.preventDefault()
+
+    let nextIndex = index
+    if (event.key === 'ArrowDown') nextIndex = (index + 1) % 2
+    if (event.key === 'ArrowUp') nextIndex = (index - 1 + 2) % 2
+    if (event.key === 'Home') nextIndex = 0
+    if (event.key === 'End') nextIndex = 1
+    optionRefs.current[nextIndex]?.focus()
+  }
+
   if (!content) return null
 
   return (
@@ -77,26 +103,35 @@ export default function ExportButton({ content }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium text-muted transition-colors hover:border-accent/40 hover:text-accent md:px-1.5"
+        aria-label="Export response"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        className="flex h-10 items-center gap-1.5 rounded-md border border-border bg-panel-alt px-3 text-xs font-medium text-muted transition-colors hover:border-accent/40 hover:text-accent-dim focus-visible:outline-none dark:bg-[#242A33] dark:hover:text-amber-400 sm:h-8 sm:px-2.5"
         title="Export"
       >
         <Download className="h-3.5 w-3.5" />
-        <span className="hidden lg:inline">Export</span>
+        <span className="hidden sm:inline">Export</span>
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-1 w-40 overflow-hidden rounded-lg border border-border bg-panel-alt shadow-xl dark:bg-[#242A33]">
+        <div role="menu" aria-label="Export format" className="absolute right-0 z-50 mt-1 w-40 overflow-hidden rounded-lg border border-border bg-panel shadow-xl dark:bg-[#1F242C]">
           <button
+            ref={(element) => { optionRefs.current[0] = element }}
             type="button"
+            role="menuitem"
             onClick={() => { downloadMarkdown(content); setOpen(false) }}
+            onKeyDown={(event) => handleOptionKeyDown(event, 0)}
             className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm text-ink transition-colors hover:bg-accent/10 hover:text-accent dark:text-[#E7E9EC]"
           >
             <FileText className="h-4 w-4" />
             <span>Markdown (.md)</span>
           </button>
           <button
+            ref={(element) => { optionRefs.current[1] = element }}
             type="button"
+            role="menuitem"
             onClick={() => { downloadPDF(content); setOpen(false) }}
+            onKeyDown={(event) => handleOptionKeyDown(event, 1)}
             className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm text-ink transition-colors hover:bg-accent/10 hover:text-accent dark:text-[#E7E9EC]"
           >
             <File className="h-4 w-4" />

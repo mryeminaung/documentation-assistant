@@ -8,12 +8,14 @@ const LINES = [
 ]
 
 export default function SplashScreen({ onComplete }) {
+  const [reduceMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [phase, setPhase] = useState(0)      // 0=typing, 1=done, 2=exit
   const [visibleLines, setVisibleLines] = useState(0)
   const [charIndex, setCharIndex] = useState(0)
 
   // Type out each line one character at a time
   useEffect(() => {
+    if (reduceMotion) return
     if (phase !== 0) return
     if (visibleLines >= LINES.length) {
       setPhase(1)
@@ -32,21 +34,26 @@ export default function SplashScreen({ onComplete }) {
       setCharIndex(0)
     }, 200)
     return () => clearTimeout(timer)
-  }, [phase, visibleLines, charIndex])
+  }, [phase, visibleLines, charIndex, reduceMotion])
 
   // After typing finishes, wait then fade out
   useEffect(() => {
+    if (reduceMotion) return
     if (phase !== 1) return
     const timer = setTimeout(() => setPhase(2), 800)
     return () => clearTimeout(timer)
-  }, [phase])
+  }, [phase, reduceMotion])
 
   // After fade out, unmount
   useEffect(() => {
+    if (reduceMotion) {
+      onComplete()
+      return
+    }
     if (phase !== 2) return
     const timer = setTimeout(onComplete, 500)
     return () => clearTimeout(timer)
-  }, [phase, onComplete])
+  }, [phase, onComplete, reduceMotion])
 
   return (
     <div
