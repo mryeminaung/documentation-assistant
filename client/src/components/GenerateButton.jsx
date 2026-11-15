@@ -4,7 +4,8 @@ export default function GenerateButton({ onClick, disabled, loading }) {
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="flex w-full items-center justify-center gap-2 rounded-md bg-accent px-5 py-2.5
+      aria-busy={loading}
+      className="flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-accent px-5 py-2.5
                  font-display text-sm font-semibold text-bg transition-colors
                  hover:bg-accent-dim disabled:cursor-not-allowed disabled:opacity-40
                  focus-visible:outline-none sm:w-auto"

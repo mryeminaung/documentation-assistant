@@ -8,26 +8,17 @@ import ResponsePanel from './components/ResponsePanel'
 import SplashScreen from './components/SplashScreen'
 import TaskTabs from './components/TaskTabs'
 import Toast from './components/Toast'
+import WorkspaceSplit from './components/WorkspaceSplit'
 import { useClaudeRequest } from './hooks/useClaudeRequest'
 import { useTheme } from './hooks/useTheme'
 import { useToast } from './hooks/useToast'
 import { DEFAULT_LANGUAGE, DEFAULT_TASK, TASKS, EXT_TO_LANG } from './lib/constants'
 
-function MenuIcon({ className }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
-  )
-}
-
 const isCreatorTask = (id) => id === 'creator'
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true)
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarCompact, setSidebarCompact] = useState(false)
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE)
   const [task, setTask] = useState(DEFAULT_TASK)
   const [code, setCode] = useState('')
@@ -47,7 +38,7 @@ export default function App() {
   const handleFileUpload = useCallback((file) => {
     const ext = file.name.split('.').pop()?.toLowerCase()
     if (!ext || !EXT_TO_LANG[ext]) {
-      showToast({ message: `Unsupported file type: .${ext ?? 'unknown'}`, tone: 'error' })
+      showToast(`Unsupported file type: .${ext ?? 'unknown'}`, 'error')
       return
     }
 
@@ -82,7 +73,8 @@ export default function App() {
         <TaskTabs
           value={task}
           onChange={setTask}
-          className={sidebarOpen ? '' : 'md:hidden'}
+          compact={sidebarCompact}
+          onToggleCompact={() => setSidebarCompact((current) => !current)}
         />
 
         {showCreator ? (
@@ -90,32 +82,25 @@ export default function App() {
             <About />
           </main>
         ) : (
-          <main className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:gap-5 md:overflow-hidden md:p-6">
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => setSidebarOpen((prev) => !prev)}
-                aria-label={sidebarOpen ? 'Close sidebar' : 'Open sidebar'}
-                aria-expanded={sidebarOpen}
-                className="hidden md:flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-panel
-                           text-muted transition-colors hover:border-accent/40 hover:text-accent
-                           focus-visible:outline-none dark:bg-[#1F242C]"
-              >
-                <MenuIcon className="h-4 w-4" />
-              </button>
-              <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <main className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:gap-5 md:p-6 lg:overflow-hidden">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0">
+                <p className="mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-muted/70">
+                  Workspace
+                </p>
                 <div>
-                  <h2 className="font-display text-sm font-semibold text-ink dark:text-[#E7E9EC]">
+                  <h2 className="font-display text-base font-semibold leading-tight text-ink dark:text-[#E7E9EC]">
                     {activeTask.label}
                   </h2>
-                  <p className="text-xs text-muted">{activeTask.description}</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted">{activeTask.description}</p>
                 </div>
-                <LanguageSelector value={language} onChange={setLanguage} />
               </div>
+              <LanguageSelector value={language} onChange={setLanguage} />
             </div>
 
-            <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2 md:overflow-hidden">
-              <div className="min-h-[260px] md:min-h-0">
+            <WorkspaceSplit
+              status={status}
+              editor={
                 <CodeEditor
                   value={code}
                   onChange={setCode}
@@ -126,24 +111,23 @@ export default function App() {
                   onFileClear={handleFileClear}
                   fileName={uploadedFileName}
                 />
-              </div>
-              <div className="min-h-[260px] md:min-h-0">
+              }
+              response={
                 <ResponsePanel
                   status={status}
                   result={result}
                   error={error}
                   onToast={showToast}
                 />
-              </div>
-            </div>
-
-            <div className="flex justify-stretch sm:justify-end">
-              <GenerateButton
-                onClick={handleGenerate}
-                disabled={status === 'loading'}
-                loading={status === 'loading'}
-              />
-            </div>
+              }
+              action={
+                <GenerateButton
+                  onClick={handleGenerate}
+                  disabled={status === 'loading'}
+                  loading={status === 'loading'}
+                />
+              }
+            />
           </main>
         )}
       </div>
