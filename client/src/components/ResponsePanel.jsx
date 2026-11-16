@@ -5,7 +5,7 @@ import CopyButton from './CopyButton'
 import ExportButton from './ExportButton'
 import MarkdownPreview from './MarkdownPreview'
 
-export default function ResponsePanel({ status, result, error, onToast }) {
+export default function ResponsePanel({ status, result, error, exportContext, onToast }) {
   const [viewMode, setViewMode] = useState('raw')
 
   const statusLabel = {
@@ -75,7 +75,7 @@ export default function ResponsePanel({ status, result, error, onToast }) {
               </button>
             </div>
           <div className="flex items-center gap-1.5">
-            <ExportButton content={result} />
+            <ExportButton content={result} context={exportContext} onToast={onToast} />
             <CopyButton text={result} onCopied={onToast} />
           </div>
           </div>

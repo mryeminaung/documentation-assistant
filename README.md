@@ -28,6 +28,7 @@ The project is intentionally small in scope: no accounts, no history, no databas
 - Loading, empty, and error states, plus a copy-to-clipboard toast
 - Responsive layout — usable on mobile, tablet, and desktop
 - Light/dark mode with theme toggle
+- **Structured Markdown & PDF exports** — descriptive filenames, source metadata, formatted PDF sections, code blocks, and page numbers
 
 ## Screenshots
 

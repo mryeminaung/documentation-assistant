@@ -23,6 +23,7 @@ export default function App() {
   const [task, setTask] = useState(DEFAULT_TASK)
   const [code, setCode] = useState('')
   const [uploadedFileName, setUploadedFileName] = useState(null)
+  const [exportContext, setExportContext] = useState(null)
 
   const { run, status, result, error } = useClaudeRequest()
   const { toast, showToast } = useToast()
@@ -32,6 +33,12 @@ export default function App() {
   const showCreator = isCreatorTask(task)
 
   const handleGenerate = () => {
+    setExportContext({
+      taskLabel: activeTask.label,
+      language,
+      sourceFileName: uploadedFileName,
+      generatedAt: new Date(),
+    })
     run({ task, code, language })
   }
 
@@ -117,6 +124,7 @@ export default function App() {
                   status={status}
                   result={result}
                   error={error}
+                  exportContext={exportContext}
                   onToast={showToast}
                 />
               }
